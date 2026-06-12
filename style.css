@@ -1,0 +1,1373 @@
+/* ==================================================================
+   AURUM RESTAURANTE — Hoja de Estilos Principal
+   Diseño: Ultra moderno, elegante, esmeralda profundo con cobre.
+   Enfoque: Mobile-First, CSS Grid + Flexbox.
+   ================================================================== */
+
+/* ========== VARIABLES CSS (TOKENS DE DISEÑO) ========== */
+:root {
+    /* --- Colores principales --- */
+    --color-fondo:          #0F0E0E;
+    --color-fondo-claro:    #151313;
+    --color-fondo-tarjeta:  #1A1818;
+    --color-fondo-hover:    #221F1F;
+    --color-dorado:         #D32F2F;
+    --color-dorado-claro:   #E53935;
+    --color-dorado-oscuro:  #B71C1C;
+    --color-blanco:         #F5F5F5;
+    --color-gris-claro:     #D4D0CE;
+    --color-gris:           #9E9795;
+    --color-gris-oscuro:    #696361;
+    --color-borde:          rgba(211, 47, 47, 0.15);
+    --color-borde-hover:    rgba(211, 47, 47, 0.4);
+
+    /* --- Tipografías --- */
+    --fuente-serif:         'Cormorant Garamond', 'Georgia', serif;
+    --fuente-sans:          'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+
+    /* --- Tamaños de fuente (escala fluida con clamp) --- */
+    --fs-xs:    clamp(0.75rem, 0.8vw + 0.6rem, 0.875rem);
+    --fs-sm:    clamp(0.875rem, 1vw + 0.7rem, 1rem);
+    --fs-base:  clamp(1rem, 1.2vw + 0.8rem, 1.125rem);
+    --fs-md:    clamp(1.125rem, 1.5vw + 0.9rem, 1.25rem);
+    --fs-lg:    clamp(1.25rem, 2vw + 1rem, 1.5rem);
+    --fs-xl:    clamp(1.5rem, 2.5vw + 1.1rem, 1.75rem);
+    --fs-2xl:   clamp(1.75rem, 3vw + 1.2rem, 2.25rem);
+    --fs-3xl:   clamp(2rem, 4vw + 1.5rem, 3rem);
+    --fs-4xl:   clamp(2.5rem, 5vw + 1.8rem, 4.5rem);
+    --fs-5xl:   clamp(3rem, 6vw + 2rem, 5.5rem);
+
+    /* --- Espaciado --- */
+    --espacio-xs:   0.5rem;
+    --espacio-sm:   1rem;
+    --espacio-md:   1.5rem;
+    --espacio-lg:   2rem;
+    --espacio-xl:   3rem;
+    --espacio-2xl:  4rem;
+    --espacio-3xl:  6rem;
+    --espacio-4xl:  8rem;
+
+    /* --- Bordes y sombras --- */
+    --radio-sm:     8px;
+    --radio-md:     12px;
+    --radio-lg:     20px;
+    --radio-xl:     30px;
+    --sombra-suave: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --sombra-dorada: 0 4px 25px rgba(211, 47, 47, 0.18);
+    --sombra-elevada: 0 12px 40px rgba(0, 0, 0, 0.5);
+
+    /* --- Transiciones --- */
+    --transicion:       all 0.3s ease;
+    --transicion-lenta: all 0.5s ease;
+
+    /* --- Ancho máximo --- */
+    --max-ancho: 1200px;
+
+    /* --- Altura de navbar --- */
+    --navbar-alto: 80px;
+}
+
+/* ========== RESET Y ESTILOS BASE ========== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--fuente-sans);
+    background-color: var(--color-fondo);
+    color: var(--color-gris-claro);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-fondo);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-dorado-oscuro);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dorado);
+}
+
+/* Selección de texto */
+::selection {
+    background-color: rgba(211, 47, 47, 0.35);
+    color: var(--color-blanco);
+}
+
+/* --- Decoración de Orbes (Fondo) --- */
+.orbes-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.orbe {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.35;
+    animation: orbeFloat 20s infinite alternate ease-in-out;
+}
+
+.orbe-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-dorado-oscuro);
+    top: -10%;
+    left: -10%;
+}
+
+.orbe-2 {
+    width: 500px;
+    height: 500px;
+    background: rgba(211, 47, 47, 0.2);
+    bottom: -20%;
+    right: -10%;
+    animation-delay: -5s;
+    animation-duration: 25s;
+}
+
+.orbe-3 {
+    width: 300px;
+    height: 300px;
+    background: rgba(211, 47, 47, 0.15);
+    top: 40%;
+    left: 50%;
+    animation-delay: -10s;
+    animation-duration: 30s;
+}
+
+@keyframes orbeFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.2); }
+}
+
+/* ========== UTILIDADES GLOBALES ========== */
+.contenedor {
+    width: 100%;
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 0 var(--espacio-md);
+}
+
+.texto-dorado {
+    color: var(--color-dorado);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transicion);
+}
+
+ul {
+    list-style: none;
+}
+
+/* Clase para animación de aparición al hacer scroll */
+.revelar {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.revelar.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ==================================================================
+   NAVBAR
+   ================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+/* Estado del navbar al hacer scroll */
+.navbar--scroll {
+    background: rgba(15, 14, 14, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+}
+
+.navbar__contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 0 var(--espacio-md);
+    height: var(--navbar-alto);
+}
+
+/* --- Logo --- */
+.navbar__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1001;
+}
+
+.navbar__logo-icono {
+    font-size: var(--fs-xl);
+    color: var(--color-dorado);
+    transition: var(--transicion);
+}
+
+.navbar__logo:hover .navbar__logo-icono {
+    transform: rotate(90deg);
+}
+
+.navbar__logo-texto {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--color-blanco);
+}
+
+/* --- Navegación --- */
+.navbar__nav {
+    display: none; /* Oculto en móvil, se muestra con JS */
+}
+
+.navbar__lista {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-lg);
+}
+
+.navbar__enlace {
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-gris-claro);
+    position: relative;
+    padding: 4px 0;
+}
+
+/* Línea dorada animada debajo del enlace */
+.navbar__enlace::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--color-dorado);
+    transition: width 0.3s ease;
+}
+
+.navbar__enlace:hover {
+    color: var(--color-dorado);
+}
+
+.navbar__enlace:hover::after {
+    width: 100%;
+}
+
+/* --- Botón de reservar --- */
+.navbar__btn-reservar {
+    display: none; /* Oculto en móvil, visible en tablet+ */
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: transparent;
+    border: 1.5px solid var(--color-dorado);
+    color: var(--color-dorado);
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: var(--radio-xl);
+    cursor: pointer;
+    transition: var(--transicion);
+    z-index: 1001;
+}
+
+.navbar__btn-reservar:hover {
+    background: var(--color-dorado);
+    color: var(--color-fondo);
+    box-shadow: var(--sombra-dorada);
+}
+
+.navbar__btn-icono {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- Botón hamburguesa (solo móvil) --- */
+.navbar__hamburguesa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 4px;
+}
+
+.navbar__hamburguesa-linea {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-blanco);
+    border-radius: 2px;
+    transition: var(--transicion);
+    transform-origin: center;
+}
+
+/* Animación de hamburguesa a X */
+.navbar__hamburguesa--activo .navbar__hamburguesa-linea:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__hamburguesa--activo .navbar__hamburguesa-linea:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.navbar__hamburguesa--activo .navbar__hamburguesa-linea:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Menú móvil desplegado --- */
+.navbar__nav--movil-abierto {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(15, 14, 14, 0.97);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.navbar__nav--movil-abierto .navbar__lista {
+    flex-direction: column;
+    gap: var(--espacio-xl);
+    text-align: center;
+}
+
+.navbar__nav--movil-abierto .navbar__enlace {
+    font-size: var(--fs-xl);
+    font-family: var(--fuente-serif);
+    letter-spacing: 3px;
+}
+
+
+/* ==================================================================
+   HERO
+   ================================================================== */
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 20% 80%, rgba(211, 47, 47, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(183, 28, 28, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #0A0909 0%, #0F0E0E 40%, #151313 100%);
+}
+
+/* Overlay con patrón sutil */
+.hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(211, 47, 47, 0.015) 2px,
+            rgba(211, 47, 47, 0.015) 4px
+        );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Partículas flotantes */
+.hero__particulas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero__particula {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--color-dorado);
+    border-radius: 50%;
+    opacity: 0;
+    animation: flotar 8s infinite ease-in-out;
+}
+
+@keyframes flotar {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    20% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 0.3;
+        transform: translateY(-80px) scale(1);
+    }
+    80% {
+        opacity: 0.1;
+    }
+}
+
+/* Contenido principal del hero */
+.hero__contenido {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--espacio-lg);
+    max-width: 800px;
+}
+
+.hero__linea-decorativa {
+    width: 60px;
+    height: 1.5px;
+    background: var(--color-dorado);
+    margin: 0 auto var(--espacio-lg);
+    opacity: 0.7;
+}
+
+.hero__subtitulo-superior {
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--color-dorado);
+    margin-bottom: var(--espacio-md);
+}
+
+.hero__titulo {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-3xl);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-blanco);
+    margin-bottom: var(--espacio-md);
+}
+
+.hero__titulo-acento {
+    display: block;
+    color: var(--color-dorado);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.hero__subtitulo {
+    font-size: var(--fs-base);
+    font-weight: 300;
+    color: var(--color-gris);
+    line-height: 1.8;
+    margin-bottom: var(--espacio-xl);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Botón CTA del hero */
+.hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: var(--color-dorado);
+    color: var(--color-fondo);
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: var(--radio-xl);
+    transition: var(--transicion);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero__btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.hero__btn:hover::before {
+    left: 100%;
+}
+
+.hero__btn:hover {
+    background: var(--color-dorado-claro);
+    box-shadow: 0 0 30px rgba(211, 47, 47, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Indicador de scroll en la parte inferior del hero */
+.hero__scroll-indicador {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+}
+
+.hero__scroll-indicador span {
+    font-size: var(--fs-xs);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-gris-oscuro);
+}
+
+.hero__scroll-linea {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-dorado), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50%      { opacity: 1; transform: scaleY(1); }
+}
+
+
+/* ==================================================================
+   SECCIONES GENÉRICAS
+   ================================================================== */
+.seccion {
+    padding: var(--espacio-3xl) 0;
+}
+
+.seccion__encabezado {
+    text-align: center;
+    margin-bottom: var(--espacio-2xl);
+}
+
+.seccion__etiqueta {
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-dorado);
+    margin-bottom: var(--espacio-sm);
+}
+
+.seccion__titulo {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-2xl);
+    font-weight: 700;
+    color: var(--color-blanco);
+    line-height: 1.3;
+    margin-bottom: var(--espacio-sm);
+}
+
+.seccion__separador {
+    position: relative;
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-dorado), transparent);
+    margin: var(--espacio-md) auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seccion__separador::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--color-fondo);
+    border: 1px solid var(--color-dorado);
+    transform: rotate(45deg);
+}
+
+.seccion__separador--izquierda {
+    margin-left: 0;
+    background: linear-gradient(to right, var(--color-dorado), transparent);
+    justify-content: flex-start;
+}
+
+.seccion__separador--izquierda::before {
+    left: 0;
+}
+
+.seccion__descripcion {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: var(--fs-base);
+    color: var(--color-gris);
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+
+/* ==================================================================
+   SECCIÓN MENÚ
+   ================================================================== */
+.menu {
+    background: var(--color-fondo);
+}
+
+/* --- Pestañas del Menú (Tabs) --- */
+.menu-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--espacio-md);
+    margin-bottom: var(--espacio-2xl);
+}
+
+.tab-btn {
+    background: transparent;
+    border: 1px solid var(--color-borde);
+    color: var(--color-gris-claro);
+    padding: 10px 24px;
+    border-radius: var(--radio-xl);
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transicion);
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+    background: var(--color-dorado);
+    color: var(--color-fondo);
+    border-color: var(--color-dorado);
+    box-shadow: var(--sombra-dorada);
+}
+
+/* Contenedor del Menú (Scroll Horizontal) */
+.menu-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--espacio-lg);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 24px;
+    /* Suavidad en el desplazamiento en dispositivos táctiles */
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+
+/* Scrollbar específico para la cuadrícula del menú (Horizontal) */
+.menu-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.menu-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.menu-grid::-webkit-scrollbar-thumb {
+    background: var(--color-dorado-oscuro);
+    border-radius: 10px;
+}
+
+.menu-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dorado);
+}
+
+.menu-item {
+    /* Forzar el ancho de las tarjetas y evitar que se encojan */
+    flex: 0 0 clamp(280px, 80vw, 340px);
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* --- Tarjeta de platillo --- */
+.menu__tarjeta {
+    background: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    overflow: hidden;
+    transition: var(--transicion);
+    cursor: default;
+}
+
+.menu__tarjeta:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-dorado);
+    box-shadow: 0 10px 40px rgba(211, 47, 47, 0.25), 0 0 15px rgba(211, 47, 47, 0.15) inset;
+}
+
+.menu__tarjeta-imagen-contenedor {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.menu__tarjeta-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.menu__tarjeta:hover .menu__tarjeta-imagen {
+    transform: scale(1.08);
+}
+
+/* Badge de precio sobre la imagen */
+.menu__tarjeta-precio-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(15, 14, 14, 0.88);
+    backdrop-filter: blur(10px);
+    padding: 6px 16px;
+    border-radius: var(--radio-xl);
+    border: 1px solid var(--color-borde-hover);
+}
+
+.menu__tarjeta-precio {
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--color-dorado);
+    letter-spacing: 0.5px;
+}
+
+.menu__tarjeta-info {
+    padding: var(--espacio-md);
+}
+
+.menu__tarjeta-nombre {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    color: var(--color-blanco);
+    margin-bottom: var(--espacio-xs);
+}
+
+.menu__tarjeta-descripcion {
+    font-size: var(--fs-sm);
+    color: var(--color-gris);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+
+/* ==================================================================
+   SECCIÓN HISTORIA
+   ================================================================== */
+.historia {
+    background: var(--color-fondo-claro);
+}
+
+.historia__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espacio-2xl);
+    align-items: center;
+}
+
+.historia__texto .seccion__titulo {
+    text-align: left;
+}
+
+.historia__parrafo {
+    font-size: var(--fs-base);
+    color: var(--color-gris);
+    font-weight: 300;
+    line-height: 1.9;
+    margin-bottom: var(--espacio-md);
+}
+
+/* Estadísticas */
+.historia__estadisticas {
+    display: flex;
+    gap: var(--espacio-lg);
+    margin-top: var(--espacio-xl);
+    padding-top: var(--espacio-lg);
+    border-top: 1px solid var(--color-borde);
+}
+
+.historia__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.historia__stat-numero {
+    font-family: var(--fuente-sans);
+    font-size: var(--fs-2xl);
+    font-weight: 700;
+    color: var(--color-dorado);
+    letter-spacing: -1px;
+}
+
+.historia__stat-texto {
+    font-size: var(--fs-xs);
+    color: var(--color-gris-oscuro);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Imagen de la historia */
+.historia__imagen-contenedor {
+    position: relative;
+}
+
+.historia__imagen-marco {
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-borde);
+}
+
+.historia__imagen {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.historia__imagen-marco:hover .historia__imagen {
+    transform: scale(1.03);
+}
+
+/* Elemento decorativo flotante */
+.historia__decoracion {
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    background: var(--color-dorado);
+    padding: 14px 24px;
+    border-radius: var(--radio-sm);
+    box-shadow: var(--sombra-dorada);
+}
+
+.historia__decoracion-texto {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--color-fondo);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+
+/* ==================================================================
+   SECCIÓN TESTIMONIOS
+   ================================================================== */
+.testimonios {
+    background: var(--color-fondo);
+}
+
+.testimonios__carrusel {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: var(--radio-md);
+}
+
+.testimonios__pista {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* Tarjeta de testimonio individual */
+.testimonios__slide {
+    min-width: 100%;
+    padding: var(--espacio-xl) var(--espacio-lg);
+    background: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-md);
+}
+
+/* Comillas decorativas */
+.testimonios__comillas {
+    font-family: var(--fuente-serif);
+    font-size: 4rem;
+    color: var(--color-dorado);
+    line-height: 1;
+    opacity: 0.4;
+}
+
+.testimonios__texto {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-md);
+    font-style: italic;
+    color: var(--color-gris-claro);
+    line-height: 1.8;
+    max-width: 550px;
+}
+
+/* Estrellas */
+.testimonios__estrellas {
+    display: flex;
+    gap: 4px;
+}
+
+.testimonios__estrella {
+    font-size: var(--fs-lg);
+    color: var(--color-dorado);
+}
+
+.testimonios__estrella--vacia {
+    color: var(--color-gris-oscuro);
+}
+
+/* Nombre del cliente */
+.testimonios__autor {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-blanco);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.testimonios__cargo {
+    font-size: var(--fs-xs);
+    color: var(--color-gris-oscuro);
+    margin-top: 2px;
+}
+
+/* Flechas de navegación */
+.testimonios__flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 14, 14, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-borde);
+    border-radius: 50%;
+    color: var(--color-dorado);
+    cursor: pointer;
+    transition: var(--transicion);
+    z-index: 10;
+}
+
+.testimonios__flecha:hover {
+    background: var(--color-dorado);
+    color: var(--color-fondo);
+    border-color: var(--color-dorado);
+}
+
+.testimonios__flecha--izq {
+    left: 10px;
+}
+
+.testimonios__flecha--der {
+    right: 10px;
+}
+
+/* Indicadores (dots) */
+.testimonios__indicadores {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: var(--espacio-lg);
+}
+
+.testimonios__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-gris-oscuro);
+    border: none;
+    cursor: pointer;
+    transition: var(--transicion);
+}
+
+.testimonios__dot--activo {
+    background: var(--color-dorado);
+    box-shadow: 0 0 10px rgba(211, 47, 47, 0.45);
+    transform: scale(1.2);
+}
+
+
+/* ==================================================================
+   FOOTER
+   ================================================================== */
+.footer {
+    background: var(--color-fondo-claro);
+    padding: var(--espacio-3xl) 0 var(--espacio-lg);
+    border-top: 1px solid var(--color-borde);
+}
+
+.footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espacio-2xl);
+}
+
+/* Logo del footer */
+.footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--espacio-md);
+}
+
+.footer__logo-icono {
+    font-size: var(--fs-xl);
+    color: var(--color-dorado);
+}
+
+.footer__logo-texto {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--color-blanco);
+}
+
+.footer__descripcion {
+    font-size: var(--fs-sm);
+    color: var(--color-gris);
+    line-height: 1.8;
+    margin-bottom: var(--espacio-md);
+    max-width: 320px;
+}
+
+/* Redes sociales */
+.footer__redes {
+    display: flex;
+    gap: var(--espacio-sm);
+}
+
+.footer__red {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-borde);
+    color: var(--color-gris);
+    transition: var(--transicion);
+}
+
+.footer__red:hover {
+    border-color: var(--color-dorado);
+    color: var(--color-dorado);
+    background: rgba(211, 47, 47, 0.12);
+    transform: translateY(-3px);
+}
+
+/* Columnas del footer */
+.footer__columna-titulo {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--color-blanco);
+    margin-bottom: var(--espacio-md);
+    letter-spacing: 1px;
+}
+
+.footer__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-sm);
+}
+
+.footer__lista-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--fs-sm);
+    color: var(--color-gris);
+    line-height: 1.6;
+}
+
+.footer__lista-item a {
+    transition: var(--transicion);
+}
+
+/* Hover 3D para redes sociales y enlaces */
+.footer__red {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+    display: inline-block;
+}
+
+.footer__red:hover {
+    transform: translateY(-6px) scale(1.15);
+    color: var(--color-dorado);
+}
+
+.footer__lista-item a:hover {
+    color: var(--color-dorado);
+    transform: translateX(4px);
+    display: inline-block;
+}
+
+.footer__lista-item svg {
+    color: var(--color-dorado);
+    flex-shrink: 0;
+}
+
+.footer__horario {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espacio-md);
+}
+
+/* Línea divisoria del footer */
+.footer__divisor {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-borde), transparent);
+    margin: var(--espacio-2xl) 0 var(--espacio-lg);
+}
+
+/* Parte inferior */
+.footer__inferior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-xs);
+    text-align: center;
+}
+
+.footer__copyright,
+.footer__creditos {
+    font-size: var(--fs-xs);
+    color: var(--color-gris-oscuro);
+}
+
+
+/* ==================================================================
+   BOTÓN FLOTANTE DE WHATSAPP
+   ================================================================== */
+.whatsapp-flotante {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    z-index: 999;
+    transition: var(--transicion);
+    color: var(--color-blanco);
+}
+
+.whatsapp-flotante:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+}
+
+/* Animación de pulso */
+.whatsapp-flotante::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #25D366;
+    z-index: -1;
+    animation: pulsarWhatsApp 2s ease-out infinite;
+}
+
+@keyframes pulsarWhatsApp {
+    0%   { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Tooltip al hacer hover */
+.whatsapp-flotante__tooltip {
+    position: absolute;
+    right: 70px;
+    background: var(--color-fondo);
+    color: var(--color-blanco);
+    padding: 8px 14px;
+    border-radius: var(--radio-sm);
+    font-size: var(--fs-xs);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transicion);
+    border: 1px solid var(--color-borde);
+}
+
+.whatsapp-flotante:hover .whatsapp-flotante__tooltip {
+    opacity: 1;
+}
+
+
+/* ==================================================================
+   ANIMACIONES
+   ================================================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==================================================================
+   MEDIA QUERIES — RESPONSIVE (Mobile-First Estricto)
+   ================================================================== */
+
+/** 📱 TABLETS (min-width: 768px) **/
+@media (min-width: 768px) {
+    /* Regla 1: Oculta el menú de hamburguesa y muestra los botones normales de navegación */
+    .navbar__nav {
+        display: flex;
+    }
+
+    .navbar__btn-reservar {
+        display: inline-flex;
+    }
+
+    .navbar__hamburguesa {
+        display: none;
+    }
+
+    /* Regla 2: Reorganiza la sección de 'Menú Destacado' utilizando CSS Grid para que se divida fluidamente en 2 columnas perfectas. */
+    .menu__cuadricula {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Footer: 3 columnas fluidas */
+    .footer__grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+    }
+
+    .footer__inferior {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/** 💻 LAPTOPS Y PANTALLAS NORMALES (min-width: 1024px) **/
+@media (min-width: 1024px) {
+    /* Regla 1: Expande la sección de 'Menú Destacado' utilizando un layout de 3 columnas para mostrar platillos alineados horizontalmente. */
+    .menu__cuadricula {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Regla 2: Ajusta la sección de 'Nuestra Historia' a un formato de dos columnas simétricas (texto a la izquierda, imagen detallada a la derecha). */
+    .historia__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espacio-3xl);
+    }
+
+    .historia__imagen {
+        height: 500px;
+    }
+
+    /* Aumentar espaciado general entre secciones */
+    .seccion {
+        padding: var(--espacio-4xl) 0;
+    }
+}
+
+/** 🖥️ PANTALLAS GRANDES / IMAC (min-width: 1440px) **/
+@media (min-width: 1440px) {
+    /* Regla 1: Envuelve el contenedor principal con un 'max-width: 1300px' y 'margin: 0 auto'.
+       Regla 2: Mantén márgenes laterales amplios (mediante padding y max-width) para conservar la estética premium. */
+    .contenedor {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 var(--espacio-2xl); /* Márgenes laterales amplios garantizados */
+    }
+
+    .navbar__lista {
+        gap: var(--espacio-xl);
+    }
+}
