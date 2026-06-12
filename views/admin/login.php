@@ -121,6 +121,16 @@
             <h1>AURUM</h1>
             <div class="login-subtitle" data-theme-color="primary">Portal de Administración</div>
             
+            <?php if (isset($_GET['error'])): ?>
+                <div style="background: rgba(229, 57, 53, 0.2); border: 1px solid #e53935; color: #ffcdd2; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 14px;">
+                    <?php 
+                        if ($_GET['error'] === 'credenciales_invalidas') echo 'Usuario o contraseña incorrectos.';
+                        elseif ($_GET['error'] === 'campos_vacios') echo 'Por favor completa todos los campos.';
+                        else echo 'Ocurrió un error en el sistema.';
+                    ?>
+                </div>
+            <?php endif; ?>
+
             <form action="../../backend/auth.php" method="POST">
                 <div class="form-group">
                     <label for="username">Usuario</label>
