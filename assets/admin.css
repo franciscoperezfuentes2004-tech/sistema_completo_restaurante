@@ -1,0 +1,242 @@
+/* ==================================================================
+   AURUM RESTAURANTE — Estilos del Panel Administrativo
+   ================================================================== */
+
+/* Variables compartidas se asumen cargadas de style.css */
+
+/* Layout Principal del Admin */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--color-fondo);
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 260px;
+    background-color: var(--color-fondo-tarjeta);
+    border-right: 1px solid var(--color-borde);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar__logo {
+    padding: var(--espacio-lg) var(--espacio-md);
+    text-align: center;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.admin-sidebar__logo-texto {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--color-blanco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.admin-sidebar__nav {
+    flex: 1;
+    padding: var(--espacio-md) 0;
+}
+
+.admin-sidebar__enlace {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px var(--espacio-md);
+    color: var(--color-gris-claro);
+    font-size: var(--fs-sm);
+    transition: var(--transicion);
+    border-left: 3px solid transparent;
+}
+
+.admin-sidebar__enlace:hover,
+.admin-sidebar__enlace.activo {
+    background-color: var(--color-fondo-hover);
+    color: var(--color-dorado);
+    border-left-color: var(--color-dorado);
+}
+
+.admin-sidebar__enlace svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Contenido Principal */
+.admin-main {
+    flex: 1;
+    margin-left: 260px;
+    padding: var(--espacio-lg);
+    background-color: var(--color-fondo);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--espacio-lg);
+    padding-bottom: var(--espacio-sm);
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.admin-header h1 {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-2xl);
+    color: var(--color-blanco);
+}
+
+.admin-header__acciones {
+    display: flex;
+    gap: 12px;
+}
+
+/* Tarjetas (Cards) de Resumen */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--espacio-md);
+    margin-bottom: var(--espacio-lg);
+}
+
+.admin-card {
+    background: var(--color-fondo-tarjeta);
+    padding: var(--espacio-md);
+    border-radius: var(--radio-md);
+    border: 1px solid var(--color-borde);
+}
+
+.admin-card__titulo {
+    font-size: var(--fs-xs);
+    color: var(--color-gris);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.admin-card__valor {
+    font-family: var(--fuente-serif);
+    font-size: var(--fs-3xl);
+    color: var(--color-dorado);
+}
+
+/* Tablas de Datos */
+.admin-table-container {
+    background: var(--color-fondo-tarjeta);
+    border-radius: var(--radio-md);
+    border: 1px solid var(--color-borde);
+    overflow: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px var(--espacio-md);
+    border-bottom: 1px solid var(--color-fondo-claro);
+}
+
+.admin-table th {
+    font-size: var(--fs-xs);
+    color: var(--color-gris);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--color-fondo-claro);
+}
+
+/* Botones Administrativos */
+.btn-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    border-radius: var(--radio-sm);
+    cursor: pointer;
+    transition: var(--transicion);
+    border: none;
+    font-family: var(--fuente-sans);
+}
+
+.btn-admin--primario {
+    background: var(--color-dorado);
+    color: var(--color-fondo);
+}
+
+.btn-admin--primario:hover {
+    background: var(--color-dorado-claro);
+    transform: translateY(-2px);
+}
+
+.btn-admin--secundario {
+    background: transparent;
+    color: var(--color-gris-claro);
+    border: 1px solid var(--color-gris-oscuro);
+}
+
+.btn-admin--secundario:hover {
+    border-color: var(--color-blanco);
+    color: var(--color-blanco);
+}
+
+.btn-admin--peligro {
+    background: transparent;
+    color: #e53935;
+    border: 1px solid rgba(229, 57, 53, 0.3);
+}
+
+.btn-admin--peligro:hover {
+    background: rgba(229, 57, 53, 0.1);
+    border-color: #e53935;
+}
+
+/* Acciones en Tabla */
+.acciones-tabla {
+    display: flex;
+    gap: 8px;
+}
+
+/* Formularios Admin */
+.admin-form .form-group {
+    margin-bottom: var(--espacio-md);
+}
+
+.admin-form label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--color-gris-claro);
+    font-size: var(--fs-sm);
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    width: 100%;
+    padding: 12px;
+    background: var(--color-fondo-claro);
+    border: 1px solid var(--color-gris-oscuro);
+    color: var(--color-blanco);
+    border-radius: var(--radio-sm);
+    font-family: var(--fuente-sans);
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+    outline: none;
+    border-color: var(--color-dorado);
+}
