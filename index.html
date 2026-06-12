@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ========== SEO & META ========== -->
+    <title>Aurum | Restaurante de Alta Cocina</title>
+    <meta name="description" content="Descubre Aurum, una experiencia gastronómica de alta cocina donde cada plato es una obra de arte. Reserva tu mesa y déjate cautivar por sabores extraordinarios.">
+    <meta name="keywords" content="restaurante, alta cocina, gastronomía, fine dining, reservaciones">
+    <meta name="author" content="Aurum Restaurante">
+
+    <!-- ========== 🔒 SEGURIDAD — META TAGS DE PROTECCIÓN ========== -->
+    <!--
+        🔒 Clickjacking (Secuestro de Clics):
+        La directiva frame-ancestors 'none' impide que esta página sea
+        incrustada dentro de un <iframe> en sitios de terceros.
+        Esto previene ataques donde un sitio malicioso superpone
+        elementos invisibles sobre nuestra página para engañar al
+        usuario y hacerle clic en botones que no ve (ej: "Reservar").
+
+        ⚠️ IMPORTANTE: Este meta tag funciona como respaldo del lado del
+        cliente. Para máxima protección, el SERVIDOR de despliegue DEBE
+        enviar las cabeceras HTTP:
+          X-Frame-Options: DENY
+          Content-Security-Policy: frame-ancestors 'none'
+        Consultar: SEGURIDAD.md para instrucciones detalladas.
+    -->
+    <meta http-equiv="Content-Security-Policy"
+          content="frame-ancestors 'none'">
+
+    <!--
+        🔒 MIME Sniffing:
+        Previene que el navegador interprete archivos con un tipo MIME
+        diferente al declarado, bloqueando un vector de ataque donde
+        un archivo .txt podría ser interpretado como JavaScript.
+    -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <!--
+        🔒 Referrer Policy:
+        Controla cuánta información del referrer se envía al navegar
+        a sitios externos (ej: redes sociales, WhatsApp). 'strict-origin-when-cross-origin'
+        envía solo el origen (sin la ruta completa) en peticiones cross-origin,
+        protegiendo la privacidad de los usuarios del restaurante.
+    -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- ========== TIPOGRAFÍAS (Google Fonts) ========== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+    <!-- ========== ESTILOS ========== -->
+    <link rel="stylesheet" href="assets/style.css?v=2.0">
+</head>
+<body>
+
+    <!-- ========== DECORACIÓN: ORBES DE LUZ (Fondo) ========== -->
+    <div class="orbes-fondo" aria-hidden="true">
+        <div class="orbe orbe-1"></div>
+        <div class="orbe orbe-2"></div>
+        <div class="orbe orbe-3"></div>
+    </div>
+
+    <!-- ================================================================
+         ENCABEZADO / NAVBAR
+         ================================================================ -->
+    <header class="navbar" id="navbar">
+        <div class="navbar__contenedor">
+            <!-- Logo del restaurante -->
+            <a href="#inicio" class="navbar__logo" id="logo">
+                <span class="navbar__logo-icono" data-theme-color="primary">✦</span>
+                <span class="navbar__logo-texto">AURUM</span>
+            </a>
+
+            <!-- Enlaces de navegación (escritorio) -->
+            <nav class="navbar__nav" id="navMenu">
+                <ul class="navbar__lista">
+                    <li><a href="#inicio" class="navbar__enlace">Inicio</a></li>
+                    <li><a href="#menu" class="navbar__enlace">Menú</a></li>
+                    <li><a href="#nosotros" class="navbar__enlace">Nosotros</a></li>
+                    <li><a href="#contacto" class="navbar__enlace">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Botón de reservar por WhatsApp -->
+            <a href="https://wa.me/5215512345678?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20una%20reservaci%C3%B3n"
+               class="navbar__btn-reservar" data-theme-border="primary" id="btnReservarNav" target="_blank" rel="noopener noreferrer">
+                <svg class="navbar__btn-icono" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Reservar
+            </a>
+
+            <!-- Botón hamburguesa (móvil) -->
+            <button class="navbar__hamburguesa" id="btnHamburguesa" aria-label="Abrir menú de navegación">
+                <span class="navbar__hamburguesa-linea"></span>
+                <span class="navbar__hamburguesa-linea"></span>
+                <span class="navbar__hamburguesa-linea"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================================================================
+         SECCIÓN HERO / PORTADA
+         ================================================================ -->
+    <section class="hero" id="inicio">
+        <!-- Overlay oscuro sobre la imagen de fondo -->
+        <div class="hero__overlay"></div>
+
+        <!-- Partículas decorativas flotantes -->
+        <div class="hero__particulas" id="heroParticulas"></div>
+
+        <div class="hero__contenido">
+            <!-- Línea decorativa superior -->
+            <div class="hero__linea-decorativa" data-theme-bg="primary"></div>
+
+            <p class="hero__subtitulo-superior" data-theme-color="primary">— Experiencia Gastronómica —</p>
+            <h1 class="hero__titulo">
+                El Arte de la
+                <span class="hero__titulo-acento" data-theme-color="primary">Alta Cocina</span>
+            </h1>
+            <p class="hero__subtitulo">
+                Donde cada plato cuenta una historia y cada sabor despierta una emoción
+            </p>
+
+            <!-- Botón principal -->
+            <a href="#menu" class="hero__btn" data-theme-bg="primary" id="btnVerMenu">
+                <span>Ver Menú</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Indicador de scroll -->
+        <div class="hero__scroll-indicador">
+            <span>Scroll</span>
+            <div class="hero__scroll-linea" data-theme-bg="primary"></div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN MENÚ DESTACADO
+         ================================================================ -->
+    <section class="seccion menu" id="menu">
+        <div class="contenedor">
+            <!-- Encabezado de sección -->
+            <div class="seccion__encabezado">
+                <p class="seccion__etiqueta" data-theme-color="primary">Nuestra Selección</p>
+                <h2 class="seccion__titulo">Menú <span class="texto-dorado" data-theme-color="primary">Destacado</span></h2>
+                <div class="seccion__separador"></div>
+                <p class="seccion__descripcion">
+                    Una cuidadosa selección de nuestros platillos insignia, elaborados con los ingredientes
+                    más finos y la pasión de nuestro chef ejecutivo.
+                </p>
+            </div>
+
+            <!-- Pestañas de Filtrado -->
+            <div class="menu-tabs">
+                <button class="tab-btn active" data-filter="all">Todos</button>
+                <button class="tab-btn" data-filter="desayunos">Desayunos</button>
+                <button class="tab-btn" data-filter="comidas">Comidas</button>
+                <button class="tab-btn" data-filter="bebidas">Bebidas</button>
+            </div>
+
+            <!-- Contenedor donde JS renderizará las tarjetas -->
+            <div class="menu-grid" id="menuCuadricula">
+                <!-- Las tarjetas se generan dinámicamente desde script.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN NUESTRA HISTORIA
+         ================================================================ -->
+    <section class="seccion historia" id="nosotros">
+        <div class="contenedor">
+            <div class="historia__grid">
+                <!-- Columna de texto -->
+                <div class="historia__texto">
+                    <p class="seccion__etiqueta" data-theme-color="primary">Desde 2010</p>
+                    <h2 class="seccion__titulo">Nuestra <span class="texto-dorado" data-theme-color="primary">Historia</span></h2>
+                    <div class="seccion__separador seccion__separador--izquierda"></div>
+
+                    <p class="historia__parrafo">
+                        Aurum nació de un sueño: crear un espacio donde la gastronomía se elevara
+                        al nivel de arte. Fundado por el Chef Alejandro Montoya, nuestro restaurante
+                        ha sido reconocido internacionalmente por su enfoque innovador en la cocina
+                        de autor.
+                    </p>
+                    <p class="historia__parrafo">
+                        Cada ingrediente es seleccionado cuidadosamente de productores locales y
+                        mercados internacionales. Nuestra filosofía es simple: respetar el producto,
+                        honrar la tradición e innovar con cada temporada.
+                    </p>
+                    <p class="historia__parrafo">
+                        Con más de una década de trayectoria, hemos servido a miles de comensales
+                        que buscan algo más que una comida — buscan una experiencia que perdure
+                        en la memoria.
+                    </p>
+
+                    <!-- Estadísticas -->
+                    <div class="historia__estadisticas">
+                        <div class="historia__stat">
+                            <span class="historia__stat-numero" data-theme-color="primary">15+</span>
+                            <span class="historia__stat-texto">Años de Excelencia</span>
+                        </div>
+                        <div class="historia__stat">
+                            <span class="historia__stat-numero" data-theme-color="primary">3</span>
+                            <span class="historia__stat-texto">Estrellas Michelin</span>
+                        </div>
+                        <div class="historia__stat">
+                            <span class="historia__stat-numero" data-theme-color="primary">50K+</span>
+                            <span class="historia__stat-texto">Clientes Satisfechos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna de imagen -->
+                <div class="historia__imagen-contenedor">
+                    <div class="historia__imagen-marco">
+                        <img src="assets/img/historia.jpg" alt="Interior elegante del restaurante Aurum" class="historia__imagen" loading="lazy">
+                    </div>
+                    <!-- Elemento decorativo flotante -->
+                    <div class="historia__decoracion" data-theme-bg="primary">
+                        <span class="historia__decoracion-texto">Est. 2010</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN TESTIMONIOS
+         ================================================================ -->
+    <section class="seccion testimonios" id="testimonios">
+        <div class="contenedor">
+            <!-- Encabezado de sección -->
+            <div class="seccion__encabezado">
+                <p class="seccion__etiqueta" data-theme-color="primary">Lo Que Dicen</p>
+                <h2 class="seccion__titulo">Nuestros <span class="texto-dorado" data-theme-color="primary">Comensales</span></h2>
+                <div class="seccion__separador"></div>
+            </div>
+
+            <!-- Carrusel de testimonios -->
+            <div class="testimonios__carrusel" id="carruselTestimonios">
+                <!-- Contenedor de slides -->
+                <div class="testimonios__pista" id="pistaTestimonios">
+                    <!-- Los testimonios se renderizan desde script.js -->
+                </div>
+
+                <!-- Flechas de navegación -->
+                <button class="testimonios__flecha testimonios__flecha--izq" id="flechaIzq" aria-label="Testimonio anterior">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <button class="testimonios__flecha testimonios__flecha--der" id="flechaDer" aria-label="Siguiente testimonio">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Indicadores (dots) -->
+            <div class="testimonios__indicadores" id="indicadoresTestimonios">
+                <!-- Se generan dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         PIE DE PÁGINA / FOOTER
+         ================================================================ -->
+    <footer class="footer" id="contacto">
+        <div class="contenedor">
+            <!-- Parte superior del footer -->
+            <div class="footer__grid">
+                <!-- Columna: Marca -->
+                <div class="footer__columna">
+                    <a href="#inicio" class="footer__logo">
+                        <span class="footer__logo-icono" data-theme-color="primary">✦</span>
+                        <span class="footer__logo-texto">AURUM</span>
+                    </a>
+                    <p class="footer__descripcion">
+                        Una experiencia gastronómica que trasciende lo ordinario.
+                        Cada visita es un viaje a través de sabores extraordinarios.
+                    </p>
+                    <!-- Redes sociales -->
+                    <div class="footer__redes">
+                        <a href="https://www.instagram.com/" class="footer__red" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/" class="footer__red" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/" class="footer__red" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna: Contacto -->
+                <div class="footer__columna">
+                    <h3 class="footer__columna-titulo">Contacto</h3>
+                    <ul class="footer__lista">
+                        <li class="footer__lista-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+                                <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                            </svg>
+                            <a href="https://maps.google.com/?q=Av.+Reforma+520,+Col.+Centro,+CDMX" target="_blank" rel="noopener noreferrer">Av. Reforma 520, Col. Centro, CDMX</a>
+                        </li>
+                        <li class="footer__lista-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+                                <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                            </svg>
+                            <a href="https://wa.me/525512345678" target="_blank" rel="noopener noreferrer">+52 (55) 1234-5678</a>
+                        </li>
+                        <li class="footer__lista-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+                                <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                            </svg>
+                            <a href="mailto:reservas@aurum.com.mx">reservas@aurum.com.mx</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Columna: Horario -->
+                <div class="footer__columna">
+                    <h3 class="footer__columna-titulo">Horario</h3>
+                    <ul class="footer__lista">
+                        <li class="footer__lista-item footer__horario">
+                            <span>Lunes - Viernes</span>
+                            <span class="texto-dorado" data-theme-color="primary">13:00 – 23:00</span>
+                        </li>
+                        <li class="footer__lista-item footer__horario">
+                            <span>Sábado</span>
+                            <span class="texto-dorado" data-theme-color="primary">12:00 – 00:00</span>
+                        </li>
+                        <li class="footer__lista-item footer__horario">
+                            <span>Domingo</span>
+                            <span class="texto-dorado" data-theme-color="primary">12:00 – 22:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Línea divisoria -->
+            <div class="footer__divisor"></div>
+
+            <!-- Parte inferior del footer -->
+            <div class="footer__inferior">
+                <p class="footer__copyright">
+                    &copy; 2025 Aurum Restaurante. Todos los derechos reservados.
+                </p>
+                <p class="footer__creditos">
+                    Diseñado con <span class="texto-dorado" data-theme-color="primary">♥</span> para paladares exigentes
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================================
+         BOTÓN FLOTANTE DE WHATSAPP
+         ================================================================ -->
+    <a href="https://wa.me/5215512345678?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20una%20reservaci%C3%B3n"
+       class="whatsapp-flotante" data-theme-bg="primary" id="btnWhatsApp" target="_blank" rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="whatsapp-flotante__tooltip">¿Necesitas ayuda?</span>
+    </a>
+
+    <!-- ========== SCRIPT PRINCIPAL ========== -->
+    <script src="assets/script.js?v=2.0"></script>
+</body>
+</html>
