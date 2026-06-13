@@ -28,26 +28,29 @@ if ($stmt_reporte->rowCount() > 0) {
     $reporte_texto = $stmt_reporte->fetch(PDO::FETCH_ASSOC)['valor'];
 }
 
-// 3. Obtener suma de ingresos del mes actual
-$stmt_ingresos_mes = $db->prepare("
-    SELECT SUM(monto) as total 
-    FROM transacciones 
-    WHERE tipo = 'ingreso' 
-      AND MONTH(fecha) = MONTH(CURRENT_DATE()) 
-      AND YEAR(fecha) = YEAR(CURRENT_DATE())
+// 3. Obtener suma de ventas (pedidos completados) del mes actual
+$stmt_ventas_mes = $db->prepare("
+    SELECT SUM(total) as total 
+    FROM pedidos 
+    WHERE estado = 'entregado' 
+      AND MONTH(created_at) = MONTH(CURRENT_DATE()) 
+      AND YEAR(created_at) = YEAR(CURRENT_DATE())
 ");
-$stmt_ingresos_mes->execute();
-$total_ingresos_mes = floatval($stmt_ingresos_mes->fetch(PDO::FETCH_ASSOC)['total'] ?? 0);
+$stmt_ventas_mes->execute();
+$total_ingresos_mes = floatval($stmt_ventas_mes->fetch(PDO::FETCH_ASSOC)['total'] ?? 0);
 
 // Calcular porcentaje de meta de ventas
 $porcentaje_meta = $meta_ventas > 0 ? min(100, round(($total_ingresos_mes / $meta_ventas) * 100, 1)) : 0;
 
-// 4. Obtener distribución de categorías para los ingresos (Donut Chart)
+// 4. Obtener distribución de categorías para los pedidos entregados (Donut Chart)
 $stmt_dist = $db->prepare("
-    SELECT categoria, COUNT(*) as cantidad
-    FROM transacciones 
-    WHERE tipo = 'ingreso'
-    GROUP BY categoria
+    SELECT c.nombre as categoria, SUM(pd.cantidad) as total_qty
+    FROM pedido_detalles pd
+    JOIN platillos p ON pd.platillo_id = p.id
+    JOIN categorias c ON p.categoria_id = c.id
+    JOIN pedidos ped ON pd.pedido_id = ped.id
+    WHERE ped.estado = 'entregado'
+    GROUP BY c.nombre
 ");
 $stmt_dist->execute();
 $distribucion = $stmt_dist->fetchAll(PDO::FETCH_ASSOC);
@@ -62,16 +65,16 @@ $pedidos_por_cat = [
 
 foreach ($distribucion as $row) {
     $cat = $row['categoria'];
-    $count = intval($row['cantidad']);
-    $total_pedidos += $count;
-    if ($cat === 'Comida' || $cat === 'Comidas') {
-        $pedidos_por_cat['Comidas'] += $count;
+    $qty = intval($row['total_qty']);
+    $total_pedidos += $qty;
+    if ($cat === 'Comida' || $cat === 'Comidas' || $cat === 'Desayunos') {
+        $pedidos_por_cat['Comidas'] += $qty;
     } elseif ($cat === 'Bebida' || $cat === 'Bebidas') {
-        $pedidos_por_cat['Bebidas'] += $count;
+        $pedidos_por_cat['Bebidas'] += $qty;
     } elseif ($cat === 'Postres' || $cat === 'Postre') {
-        $pedidos_por_cat['Postres'] += $count;
+        $pedidos_por_cat['Postres'] += $qty;
     } elseif ($cat === 'Entradas' || $cat === 'Entrada') {
-        $pedidos_por_cat['Entradas'] += $count;
+        $pedidos_por_cat['Entradas'] += $qty;
     }
 }
 
@@ -80,15 +83,6 @@ $pct_comidas = $total_pedidos > 0 ? round(($pedidos_por_cat['Comidas'] / $total_
 $pct_bebidas = $total_pedidos > 0 ? round(($pedidos_por_cat['Bebidas'] / $total_pedidos) * 100) : 0;
 $pct_postres = $total_pedidos > 0 ? round(($pedidos_por_cat['Postres'] / $total_pedidos) * 100) : 0;
 $pct_entradas = $total_pedidos > 0 ? round(($pedidos_por_cat['Entradas'] / $total_pedidos) * 100) : 0;
-
-// Si no hay pedidos, forzar valores por defecto estéticos
-if ($total_pedidos === 0) {
-    $total_pedidos = 248;
-    $pct_comidas = 42;
-    $pct_bebidas = 28;
-    $pct_postres = 18;
-    $pct_entradas = 12;
-}
 
 $circunferencia = 314;
 $len_comidas = round($circunferencia * ($pct_comidas / 100));
@@ -113,25 +107,41 @@ $gastos_por_dia = array_fill_keys($dias_grafico, 0.0);
 $fecha_inicio_rango = $dias_grafico[0];
 $fecha_fin_rango = $dias_grafico[11];
 
-$stmt_line = $db->prepare("
-    SELECT fecha, tipo, SUM(monto) as total_monto
-    FROM transacciones
-    WHERE fecha BETWEEN :inicio AND :fin
-    GROUP BY fecha, tipo
+// 5.1 Ingresos (pedidos entregados)
+$stmt_ingresos_chart = $db->prepare("
+    SELECT DATE(created_at) as fecha_dia, SUM(total) as total_dia
+    FROM pedidos
+    WHERE estado = 'entregado'
+      AND DATE(created_at) BETWEEN :inicio AND :fin
+    GROUP BY DATE(created_at)
 ");
-$stmt_line->execute([
+$stmt_ingresos_chart->execute([
     ':inicio' => $fecha_inicio_rango,
     ':fin' => $fecha_fin_rango
 ]);
+while ($row = $stmt_ingresos_chart->fetch(PDO::FETCH_ASSOC)) {
+    $fecha = $row['fecha_dia'];
+    if (isset($ingresos_por_dia[$fecha])) {
+        $ingresos_por_dia[$fecha] = floatval($row['total_dia']);
+    }
+}
 
-while ($row = $stmt_line->fetch(PDO::FETCH_ASSOC)) {
+// 5.2 Gastos (transacciones gasto)
+$stmt_gastos_chart = $db->prepare("
+    SELECT fecha, SUM(monto) as total_dia
+    FROM transacciones
+    WHERE tipo = 'gasto'
+      AND fecha BETWEEN :inicio AND :fin
+    GROUP BY fecha
+");
+$stmt_gastos_chart->execute([
+    ':inicio' => $fecha_inicio_rango,
+    ':fin' => $fecha_fin_rango
+]);
+while ($row = $stmt_gastos_chart->fetch(PDO::FETCH_ASSOC)) {
     $fecha = $row['fecha'];
-    $tipo = $row['tipo'];
-    $monto = floatval($row['total_monto']);
-    if ($tipo === 'ingreso') {
-        $ingresos_por_dia[$fecha] = $monto;
-    } else {
-        $gastos_por_dia[$fecha] = $monto;
+    if (isset($gastos_por_dia[$fecha])) {
+        $gastos_por_dia[$fecha] = floatval($row['total_dia']);
     }
 }
 
@@ -179,15 +189,15 @@ $stmt_res = $db->prepare("
 $stmt_res->execute();
 $reservaciones_proximas = $stmt_res->fetchAll(PDO::FETCH_ASSOC);
 
-// 7. Obtener las últimas 5 transacciones
-$stmt_trans_recent = $db->prepare("
-    SELECT descripcion, fecha, categoria, tipo, monto 
-    FROM transacciones 
-    ORDER BY fecha DESC, id DESC 
+// 7. Obtener los últimos 5 pedidos
+$stmt_pedidos_recent = $db->prepare("
+    SELECT id, nombre_cliente, tipo_entrega, total, estado, created_at 
+    FROM pedidos 
+    ORDER BY created_at DESC, id DESC 
     LIMIT 5
 ");
-$stmt_trans_recent->execute();
-$transacciones_recientes = $stmt_trans_recent->fetchAll(PDO::FETCH_ASSOC);
+$stmt_pedidos_recent->execute();
+$pedidos_recientes = $stmt_pedidos_recent->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -289,22 +299,27 @@ $transacciones_recientes = $stmt_trans_recent->fetchAll(PDO::FETCH_ASSOC);
                             <svg viewBox="0 0 130 130">
                                 <!-- Background circle -->
                                 <circle cx="65" cy="65" r="50" stroke="rgba(255,255,255,0.05)" stroke-width="14" fill="none"/>
-                                <!-- Comidas -->
-                                <circle cx="65" cy="65" r="50" stroke="#7C3AED" stroke-width="14" fill="none"
-                                    stroke-dasharray="<?php echo $len_comidas; ?> 314" stroke-dashoffset="<?php echo $offset_comidas; ?>" stroke-linecap="round"/>
-                                <!-- Bebidas -->
-                                <circle cx="65" cy="65" r="50" stroke="#3B82F6" stroke-width="14" fill="none"
-                                    stroke-dasharray="<?php echo $len_bebidas; ?> 314" stroke-dashoffset="<?php echo $offset_bebidas; ?>" stroke-linecap="round"/>
-                                <!-- Postres -->
-                                <circle cx="65" cy="65" r="50" stroke="#F59E0B" stroke-width="14" fill="none"
-                                    stroke-dasharray="<?php echo $len_postres; ?> 314" stroke-dashoffset="<?php echo $offset_postres; ?>" stroke-linecap="round"/>
-                                <!-- Entradas -->
-                                <circle cx="65" cy="65" r="50" stroke="#22C55E" stroke-width="14" fill="none"
-                                    stroke-dasharray="<?php echo $len_entradas; ?> 314" stroke-dashoffset="<?php echo $offset_entradas; ?>" stroke-linecap="round"/>
+                                <?php if ($total_pedidos === 0): ?>
+                                    <!-- Círculo vacío por defecto si no hay pedidos -->
+                                    <circle cx="65" cy="65" r="50" stroke="rgba(255, 255, 255, 0.05)" stroke-width="14" fill="none"/>
+                                <?php else: ?>
+                                    <!-- Comidas -->
+                                    <circle cx="65" cy="65" r="50" stroke="#7C3AED" stroke-width="14" fill="none"
+                                        stroke-dasharray="<?php echo $len_comidas; ?> 314" stroke-dashoffset="<?php echo $offset_comidas; ?>" stroke-linecap="round"/>
+                                    <!-- Bebidas -->
+                                    <circle cx="65" cy="65" r="50" stroke="#3B82F6" stroke-width="14" fill="none"
+                                        stroke-dasharray="<?php echo $len_bebidas; ?> 314" stroke-dashoffset="<?php echo $offset_bebidas; ?>" stroke-linecap="round"/>
+                                    <!-- Postres -->
+                                    <circle cx="65" cy="65" r="50" stroke="#F59E0B" stroke-width="14" fill="none"
+                                        stroke-dasharray="<?php echo $len_postres; ?> 314" stroke-dashoffset="<?php echo $offset_postres; ?>" stroke-linecap="round"/>
+                                    <!-- Entradas -->
+                                    <circle cx="65" cy="65" r="50" stroke="#22C55E" stroke-width="14" fill="none"
+                                        stroke-dasharray="<?php echo $len_entradas; ?> 314" stroke-dashoffset="<?php echo $offset_entradas; ?>" stroke-linecap="round"/>
+                                <?php endif; ?>
                             </svg>
                             <div class="donut-center">
                                 <span class="donut-center__valor"><?php echo $total_pedidos; ?></span>
-                                <span class="donut-center__cambio">+12.5%</span>
+                                <span class="donut-center__cambio">items</span>
                             </div>
                         </div>
                         <div class="donut-legend">
@@ -340,7 +355,7 @@ $transacciones_recientes = $stmt_trans_recent->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="upcoming-list">
                         <?php if (empty($reservaciones_proximas)): ?>
-                            <div class="upcoming-item" style="justify-content: center; padding: 24px 0;">
+                            <div class="upcoming-item" style="justify-content: center; padding: 36px 0;">
                                 <span class="upcoming-item__nombre" style="color: var(--admin-text-muted); text-align: center;">No hay reservaciones próximas</span>
                             </div>
                         <?php else: ?>
@@ -381,20 +396,20 @@ $transacciones_recientes = $stmt_trans_recent->fetchAll(PDO::FETCH_ASSOC);
                             <tr>
                                 <th>Descripción</th>
                                 <th>Fecha</th>
-                                <th>Categoría</th>
-                                <th>Monto</th>
+                                <th>Tipo de Entrega</th>
+                                <th>Monto e Info</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($transacciones_recientes)): ?>
+                            <?php if (empty($pedidos_recientes)): ?>
                                 <tr>
-                                    <td colspan="4" style="text-align: center; padding: 24px 0; color: var(--admin-text-muted);">No hay transacciones recientes</td>
+                                    <td colspan="4" style="text-align: center; padding: 24px 0; color: var(--admin-text-muted);">No hay pedidos recientes</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($transacciones_recientes as $trans): ?>
+                                <?php foreach ($pedidos_recientes as $ped): ?>
                                     <?php
                                     // Obtener iniciales para el avatar
-                                    $words = explode(" ", $trans['descripcion']);
+                                    $words = explode(" ", $ped['nombre_cliente']);
                                     $iniciales = "";
                                     foreach ($words as $w) {
                                         $iniciales .= mb_substr($w, 0, 1);
@@ -402,32 +417,43 @@ $transacciones_recientes = $stmt_trans_recent->fetchAll(PDO::FETCH_ASSOC);
                                     }
                                     $iniciales = strtoupper($iniciales);
                                     
-                                    // Color de fondo para avatar según categoría
-                                    $avatar_bg = '#7C3AED'; // por defecto
-                                    if ($trans['tipo'] === 'gasto') {
-                                        $avatar_bg = '#EF4444';
-                                    } elseif ($trans['categoria'] === 'Bebidas') {
-                                        $avatar_bg = '#3B82F6';
-                                    } elseif ($trans['categoria'] === 'Postres') {
-                                        $avatar_bg = '#F59E0B';
-                                    } elseif ($trans['categoria'] === 'Entradas') {
-                                        $avatar_bg = '#22C55E';
+                                    // Color de fondo para avatar según tipo de entrega
+                                    $avatar_bg = '#7C3AED'; // mesa (púrpura)
+                                    if ($ped['tipo_entrega'] === 'domicilio') {
+                                        $avatar_bg = '#3B82F6'; // domicilio (azul)
+                                    } elseif ($ped['tipo_entrega'] === 'llevar') {
+                                        $avatar_bg = '#F59E0B'; // llevar (naranja)
+                                    }
+                                    
+                                    // Formatear tipo de entrega en español
+                                    $tipo_str = 'Mesa';
+                                    if ($ped['tipo_entrega'] === 'domicilio') $tipo_str = 'A Domicilio';
+                                    elseif ($ped['tipo_entrega'] === 'llevar') $tipo_str = 'Para Llevar';
+                                    
+                                    // Clase de monto según estado
+                                    $monto_class = 'admin-table__monto--positivo';
+                                    if ($ped['estado'] === 'cancelado') {
+                                        $monto_class = 'admin-table__monto--negativo';
                                     }
                                     ?>
                                     <tr>
                                         <td>
                                             <div class="admin-table__desc">
                                                 <div class="admin-table__dot" style="background: <?php echo $avatar_bg; ?>;"><?php echo htmlspecialchars($iniciales); ?></div>
-                                                <?php echo htmlspecialchars($trans['descripcion']); ?>
+                                                <div>
+                                                    <strong><?php echo htmlspecialchars($ped['nombre_cliente']); ?></strong>
+                                                    <div style="font-size: 11px; color: var(--admin-text-muted);">Pedido #<?php echo $ped['id']; ?></div>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td><?php echo date('M d', strtotime($trans['fecha'])); ?></td>
-                                        <td class="admin-table__categoria"><?php echo htmlspecialchars($trans['categoria']); ?></td>
-                                        <?php if ($trans['tipo'] === 'ingreso'): ?>
-                                            <td class="admin-table__monto--positivo">+$<?php echo number_format($trans['monto'], 2); ?></td>
-                                        <?php else: ?>
-                                            <td class="admin-table__monto--negativo">-$<?php echo number_format($trans['monto'], 2); ?></td>
-                                        <?php endif; ?>
+                                        <td><?php echo date('M d, H:i', strtotime($ped['created_at'])); ?></td>
+                                        <td class="admin-table__categoria"><?php echo htmlspecialchars($tipo_str); ?></td>
+                                        <td class="<?php echo $monto_class; ?>">
+                                            $<?php echo number_format($ped['total'], 2); ?>
+                                            <span style="font-size: 11px; display: block; font-weight: 600; color: <?php echo $ped['estado'] === 'entregado' ? 'var(--admin-success)' : ($ped['estado'] === 'cancelado' ? 'var(--admin-danger)' : 'var(--admin-warning)'); ?>;">
+                                                <?php echo ucfirst($ped['estado']); ?>
+                                            </span>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
