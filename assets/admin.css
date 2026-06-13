@@ -169,45 +169,11 @@ html, body {
     flex-shrink: 0;
 }
 
-/* Help Card en Sidebar */
-.admin-sidebar__help {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.05));
-    border: 1px solid rgba(124, 58, 237, 0.2);
-    border-radius: var(--admin-radius);
-    padding: 20px 16px;
+/* Sidebar Footer (Cerrar Sesión) */
+.admin-sidebar__footer {
     margin-top: auto;
-    text-align: center;
-}
-
-.admin-sidebar__help h4 {
-    color: var(--admin-text-primary);
-    font-size: 14px;
-    margin-bottom: 6px;
-}
-
-.admin-sidebar__help p {
-    color: var(--admin-text-secondary);
-    font-size: 12px;
-    line-height: 1.5;
-    margin-bottom: 14px;
-}
-
-.admin-sidebar__help-btn {
-    display: inline-block;
-    padding: 8px 20px;
-    background: rgba(124, 58, 237, 0.2);
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    color: var(--admin-accent-light);
-    border-radius: var(--admin-radius-xs);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.admin-sidebar__help-btn:hover {
-    background: var(--admin-accent);
-    color: white;
+    padding-top: 16px;
+    border-top: 1px solid var(--admin-border);
 }
 
 /* ══════════════════════════════════════
