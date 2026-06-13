@@ -10,10 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style.css">
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-color: var(--color-fondo);
-            margin: 0;
-            overflow: hidden; /* Prevent scroll on login */
+            overflow: hidden;
         }
         .login-container {
             min-height: 100vh;
