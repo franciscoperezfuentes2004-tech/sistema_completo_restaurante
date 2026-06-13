@@ -1,14 +1,12 @@
-<?php
-// session_start();
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Admin | Platillos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/style.css">
+    <title>Platillos | Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/admin.css">
 </head>
 <body>
@@ -17,13 +15,13 @@
 
         <main class="admin-main">
             <header class="admin-header">
-                <h1>Gestión de Platillos</h1>
+                <h1>Platillos</h1>
                 <div class="admin-header__acciones">
-                    <button class="btn-admin btn-admin--primario">Nuevo Platillo</button>
+                    <button class="btn-admin btn-admin--primario">+ Nuevo Platillo</button>
                 </div>
             </header>
 
-            <section class="admin-table-container">
+            <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -37,34 +35,47 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><img src="../../assets/img/platillo1.jpg" alt="Salmon" width="50" style="border-radius: 4px;"></td>
-                            <td>Salmón glaseado</td>
+                            <td>
+                                <img src="../../assets/img/placeholder.png" alt="Salmón Glaseado" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                            </td>
+                            <td>Salmón Glaseado</td>
                             <td>Comidas</td>
                             <td>$350</td>
-                            <td><span style="color: #4CAF50;">Activo</span></td>
+                            <td><span style="color: var(--admin-success); font-weight: 600;">Activo</span></td>
                             <td>
-                                <div class="acciones-tabla">
-                                    <button class="btn-admin btn-admin--secundario">Editar</button>
-                                    <button class="btn-admin btn-admin--peligro">Eliminar</button>
-                                </div>
+                                <button class="btn-admin btn-admin--secundario">Editar</button>
+                                <button class="btn-admin btn-admin--peligro">Eliminar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="../../assets/img/platillo2.jpg" alt="Postre" width="50" style="border-radius: 4px;"></td>
+                            <td>
+                                <img src="../../assets/img/placeholder.png" alt="Esfera de Chocolate" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                            </td>
                             <td>Esfera de Chocolate</td>
                             <td>Postres</td>
                             <td>$180</td>
-                            <td><span style="color: #4CAF50;">Activo</span></td>
+                            <td><span style="color: var(--admin-success); font-weight: 600;">Activo</span></td>
                             <td>
-                                <div class="acciones-tabla">
-                                    <button class="btn-admin btn-admin--secundario">Editar</button>
-                                    <button class="btn-admin btn-admin--peligro">Eliminar</button>
-                                </div>
+                                <button class="btn-admin btn-admin--secundario">Editar</button>
+                                <button class="btn-admin btn-admin--peligro">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../../assets/img/placeholder.png" alt="Taco de Wagyu" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                            </td>
+                            <td>Taco de Wagyu</td>
+                            <td>Comidas</td>
+                            <td>$290</td>
+                            <td><span style="color: var(--admin-success); font-weight: 600;">Activo</span></td>
+                            <td>
+                                <button class="btn-admin btn-admin--secundario">Editar</button>
+                                <button class="btn-admin btn-admin--peligro">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </section>
+            </div>
         </main>
     </div>
 </body>

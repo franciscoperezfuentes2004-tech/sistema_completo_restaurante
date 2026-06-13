@@ -1,14 +1,12 @@
-<?php
-// session_start();
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Admin | Configuración</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/style.css">
+    <title>Configuración | Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/admin.css">
 </head>
 <body>
@@ -17,34 +15,34 @@
 
         <main class="admin-main">
             <header class="admin-header">
-                <h1>Configuración del Sistema</h1>
+                <h1>Configuración</h1>
+                <div class="admin-header__acciones"></div>
             </header>
 
-            <section class="admin-grid" style="grid-template-columns: 1fr; max-width: 800px;">
-                <div class="admin-card">
-                    <h2 style="font-family: var(--fuente-serif); color: var(--color-dorado); margin-bottom: 20px;">Personalización de Marca</h2>
-                    
-                    <form action="../../backend/api.php" method="POST" class="admin-form">
-                        <div class="form-group">
-                            <label for="site_name">Nombre del Restaurante</label>
-                            <input type="text" id="site_name" name="site_name" value="Aurum Restaurante">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="primary_color">Color Principal</label>
-                            <input type="color" id="primary_color" name="primary_color" value="#D32F2F" style="height: 50px; padding: 5px;">
-                            <small style="color: var(--color-gris); display: block; margin-top: 5px;">Este color afectará a todos los botones y acentos de la página principal configurados con data-theme-color="primary".</small>
-                        </div>
+            <div class="admin-card">
+                <h2 style="color: var(--admin-accent-light); margin-bottom: 1.5rem; font-size: 1.25rem;">Personalización de Marca</h2>
 
-                        <div class="form-group">
-                            <label for="whatsapp_number">Número de WhatsApp (Reservas)</label>
-                            <input type="text" id="whatsapp_number" name="whatsapp_number" value="5215512345678">
-                        </div>
+                <form class="admin-form" action="../../backend/api.php" method="POST">
+                    <div class="form-group">
+                        <label for="nombre_restaurante">Nombre del Restaurante</label>
+                        <input type="text" id="nombre_restaurante" name="nombre_restaurante" placeholder="Ej. La Casa del Chef" value="">
+                    </div>
 
-                        <button type="submit" class="btn-admin btn-admin--primario" style="margin-top: 20px; font-size: var(--fs-sm); padding: 12px 24px;">Guardar Cambios</button>
-                    </form>
-                </div>
-            </section>
+                    <div class="form-group">
+                        <label for="color_principal">Color Principal</label>
+                        <input type="color" id="color_principal" name="color_principal" value="#D32F2F">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp">Número de WhatsApp</label>
+                        <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej. +52 55 1234 5678" value="">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-admin btn-admin--primario">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
         </main>
     </div>
 </body>
